@@ -2,6 +2,11 @@ import dotenv from "dotenv";
 import { Markup, Telegraf } from "telegraf";
 import fs from "fs";
 import axios from "axios";
+import i18n from "./utilites/i18n";
+import { brotliCompress } from "zlib";
+
+const locales = i18n.getLocales();
+
 dotenv.config();
 
 const bot = new Telegraf(process.env.BOT_TOKEN as string);
@@ -11,8 +16,23 @@ bot.start((ctx) => {
     const user = ctx.from;
 
     const userName = user.first_name + ' ' + user.last_name;
-    ctx.reply(`Hello ${userName} !`);
+    ctx.reply(i18n.__(`hello`) + ' ' + userName);
 });
+
+bot.command('select_language', (ctx) => {
+    const keyboard = Markup.inlineKeyboard(
+        locales.map(local => Markup.button.callback(i18n.__(local), local))
+    );
+
+    ctx.reply(i18n.__('Select a language'), keyboard)
+});
+
+locales.forEach(local => {
+    bot.action(local, (ctx) => {
+        i18n.setLocale(local);
+        ctx.reply(i18n.__('Bot language is now:') + ` ${i18n.__(local)}`, Markup.removeKeyboard());
+    })
+})
 
 // bot.on('document', async (ctx) => {
 //     const { file_id: fileId } = ctx.update.message.document;
