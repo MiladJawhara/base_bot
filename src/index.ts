@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import env from './utilites/env';
 import { Markup, Telegraf } from "telegraf";
 import { registerCommands } from "./Classes/Commands/BaseCommand";
 import SelectLanguageCommand from "./Classes/Commands/SelectLanguageCommand";
@@ -6,9 +6,7 @@ import i18n from "./utilites/i18n";
 
 const locales = i18n.getLocales();
 
-dotenv.config();
-
-const bot = new Telegraf(process.env.BOT_TOKEN as string);
+const bot = new Telegraf(env('BOT_TOKEN') as string);
 
 
 bot.start((ctx) => {
