@@ -1,11 +1,8 @@
 import dotenv from "dotenv";
 import { Markup, Telegraf } from "telegraf";
-import fs from "fs";
-import axios from "axios";
-import i18n from "./utilites/i18n";
-import { brotliCompress } from "zlib";
 import { registerCommands } from "./Classes/Commands/BaseCommand";
 import SelectLanguageCommand from "./Classes/Commands/SelectLanguageCommand";
+import i18n from "./utilites/i18n";
 
 const locales = i18n.getLocales();
 
