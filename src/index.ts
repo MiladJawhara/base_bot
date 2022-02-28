@@ -1,9 +1,8 @@
 import dotenv from "dotenv";
 import { Markup, Telegraf } from "telegraf";
-import fs from "fs";
-import axios from "axios";
+import { registerCommands } from "./Classes/Commands/BaseCommand";
+import SelectLanguageCommand from "./Classes/Commands/SelectLanguageCommand";
 import i18n from "./utilites/i18n";
-import { brotliCompress } from "zlib";
 
 const locales = i18n.getLocales();
 
@@ -19,20 +18,21 @@ bot.start((ctx) => {
     ctx.reply(i18n.__(`hello`) + ' ' + userName);
 });
 
-bot.command('select_language', (ctx) => {
-    const keyboard = Markup.inlineKeyboard(
-        locales.map(local => Markup.button.callback(i18n.__(local), local))
-    );
-
-    ctx.reply(i18n.__('Select a language'), keyboard)
-});
+registerCommands(bot, [
+    new SelectLanguageCommand(),
+    {
+        text: 'miald', execute: (ctx) => {
+            ctx.reply('Jawhara')
+        }
+    }
+])
 
 locales.forEach(local => {
     bot.action(local, (ctx) => {
         i18n.setLocale(local);
         ctx.reply(i18n.__('Bot language is now:') + ` ${i18n.__(local)}`, Markup.removeKeyboard());
     })
-})
+});
 
 // bot.on('document', async (ctx) => {
 //     const { file_id: fileId } = ctx.update.message.document;
