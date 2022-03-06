@@ -72,6 +72,4 @@ import { initConnection } from './utilites/initDbConnection';
     // Enable graceful stop
     process.once('SIGINT', () => bot.stop('SIGINT'))
     process.once('SIGTERM', () => bot.stop('SIGTERM'))
->>>>>>> b25f48a10258462372deb5b35700ee76e6be0918
-
 })();
