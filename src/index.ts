@@ -25,6 +25,10 @@ import { initConnection } from './utilites/initDbConnection';
 
     register({
         commands: [
+            {
+                getCommandText: () => tr.__('say_hello'),
+                execute: (ctx) => { ctx.reply(tr.__('hello')) }
+            },
             new SelectLanguageCommand()
         ],
         actions: [...languageActions]

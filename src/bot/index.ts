@@ -7,7 +7,7 @@ import { ICommand } from "./commands/BaseCommand";
 const bot = new Telegraf(env('BOT_TOKEN') as string);
 
 
-export interface IBotAction {
+export interface IBotInteraction {
     commands?: ICommand[],
     actions?: IAction[]
 }
@@ -25,7 +25,7 @@ const regesterActions = (actions: IAction[]) => {
     })
 }
 
-export const register = (actions: IBotAction) => {
+export const register = (actions: IBotInteraction) => {
     actions.commands ? regesterCommands(actions.commands) : null;
 
     actions.actions ? regesterActions(actions.actions) : null;
