@@ -1,23 +1,23 @@
 import { Context, Markup } from "telegraf";
 import { Update } from "telegraf/typings/core/types/typegram";
-import i18n from "../../utilites/i18n";
+import tr from "../../utilites/i18n";
 import BaseCommand from "./BaseCommand";
 
 export default class SelectLanguageCommand extends BaseCommand {
 
 
-    protected getCommandText(): string {
+    public getCommandText(): string {
         return 'select_language';
     }
 
-    protected execute(ctx: Context<Update>): void {
-        const locales = i18n.getLocales();
+    public execute(ctx: Context<Update>): void {
+        const locales = tr.getLocales();
 
         const keyboard = Markup.inlineKeyboard(
-            locales.map(local => Markup.button.callback(i18n.__(local), local))
+            locales.map(local => Markup.button.callback(tr.__(local), local))
         );
 
-        ctx.reply(i18n.__('Select a language'), keyboard)
+        ctx.reply(tr.__('Select a language'), keyboard)
     }
 
 }

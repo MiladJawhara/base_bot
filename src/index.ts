@@ -1,37 +1,37 @@
-import env from './utilites/env';
-import { Markup, Telegraf } from "telegraf";
-import { registerCommands } from "./Classes/Commands/BaseCommand";
-import SelectLanguageCommand from "./Classes/Commands/SelectLanguageCommand";
-import i18n from "./utilites/i18n";
+import { Markup } from "telegraf";
+import bot, { register } from './bot';
+import { IAction } from './bot/actions/BaseAction';
+import SelectLanguageCommand from './bot/commands/SelectLanguageCommand';
+import tr from "./utilites/i18n";
 import { initConnection } from './utilites/initDbConnection';
 
-(async() => {
+(async () => {
     const connection = await initConnection;
-    
-    const locales = i18n.getLocales();
-    const bot = new Telegraf(env('BOT_TOKEN') as string);
 
-    bot.start((ctx) => {
-        const user = ctx.from;
+    const locales = tr.getLocales();
 
-        const userName = user.first_name + ' ' + user.last_name;
-        ctx.reply(i18n.__(`hello`) + ' ' + userName);
-    });
-
-    registerCommands(bot, [
-        new SelectLanguageCommand(),
-        {
-            text: 'miald', execute: (ctx) => {
-                ctx.reply('Jawhara')
-            }
-        }
-    ])
+    const languageActions: IAction[] = [];
 
     locales.forEach(local => {
-        bot.action(local, (ctx) => {
-            i18n.setLocale(local);
-            ctx.reply(i18n.__('Bot language is now:') + ` ${i18n.__(local)}`, Markup.removeKeyboard());
+        languageActions.push({
+            getActionText: () => local,
+            execute: (ctx) => {
+                tr.setLocale(local);
+                ctx.reply(tr.__('Bot language is now:') + ` ${tr.__(local)}`, Markup.removeKeyboard());
+            }
         })
+    });
+
+
+    register({
+        commands: [
+            {
+                getCommandText: () => tr.__('say_hello'),
+                execute: (ctx) => { ctx.reply(tr.__('hello')) }
+            },
+            new SelectLanguageCommand()
+        ],
+        actions: [...languageActions]
     });
 
     // bot.on('document', async (ctx) => {
@@ -76,5 +76,4 @@ import { initConnection } from './utilites/initDbConnection';
     // Enable graceful stop
     process.once('SIGINT', () => bot.stop('SIGINT'))
     process.once('SIGTERM', () => bot.stop('SIGTERM'))
-
 })();

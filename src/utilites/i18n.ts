@@ -8,4 +8,5 @@ i18n.configure({
     directory: join(__dirname,'..','locales')
 });
 
-export default i18n;
+const tr = i18n;
+export default tr;
