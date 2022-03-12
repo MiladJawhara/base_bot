@@ -1,0 +1,5 @@
+{
+    "watch": ["src", "locales"],
+    "ext": "ts,json",
+    "exec": "npm start"
+}
