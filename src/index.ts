@@ -4,6 +4,7 @@ import { IAction } from './bot/actions/BaseAction';
 import SelectLanguageCommand from './bot/commands/SelectLanguageCommand';
 import tr from "./utilites/i18n";
 import { initConnection } from './utilites/initDbConnection';
+import UsersCommand from './bot/commands/UsersCommand';
 
 (async () => {
     const connection = await initConnection;
@@ -29,7 +30,8 @@ import { initConnection } from './utilites/initDbConnection';
                 getCommandText: () => tr.__('say_hello'),
                 execute: (ctx) => { ctx.reply(tr.__('hello')) }
             },
-            new SelectLanguageCommand()
+            new SelectLanguageCommand(),
+            new UsersCommand()
         ],
         actions: [...languageActions]
     });

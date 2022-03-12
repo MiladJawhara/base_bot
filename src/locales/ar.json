@@ -3,5 +3,7 @@
 	"en": "en",
 	"ar": "ar",
 	"Select a language": "Select a language",
-	"Bot language is now:": "Bot language is now:"
+	"Bot language is now:": "Bot language is now:",
+	"say_hello": "say_hello",
+	"Users i know so far": "Users i know so far"
 }
