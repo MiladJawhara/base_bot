@@ -1,5 +1,6 @@
 import { Telegraf } from "telegraf";
 import env from "../utilites/env";
+import { User } from './../db/models/User';
 import tr from './../utilites/i18n';
 import { IAction } from "./actions/BaseAction";
 import { ICommand } from "./commands/BaseCommand";
@@ -31,9 +32,11 @@ export const register = (actions: IBotInteraction) => {
     actions.actions ? regesterActions(actions.actions) : null;
 }
 
-bot.start((ctx) => {
+bot.start(async (ctx) => {
     const user = ctx.from;
     const userName = user.first_name + ' ' + user.last_name;
+
+    await User.createIfNotExist(ctx.chat.id, user.first_name, user.last_name);
     ctx.reply(tr.__(`hello`) + ' ' + userName);
 });
 
