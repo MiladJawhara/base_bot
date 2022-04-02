@@ -5,7 +5,7 @@ import SelectLanguageCommand from './bot/commands/SelectLanguageCommand';
 import tr from "./utilites/i18n";
 import { initConnection } from './utilites/initDbConnection';
 import UsersCommand from './bot/commands/UsersCommand';
-
+import './api';
 (async () => {
     const connection = await initConnection;
 
